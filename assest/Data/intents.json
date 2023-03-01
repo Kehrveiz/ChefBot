@@ -1,0 +1,20 @@
+{"intents": [
+        {"tag": "greeting",
+	 "patterns": ["Hola", "Como estás", "Hay alquien?", "Que tal", "Buen día"],
+	 "responses": ["Hola, soy Chefbot"],
+	 "context_set": ""
+	},
+	{"tag": "goodbye",
+	 "patterns": ["Adiós", "Nos vemos", "Me voy", "tata"],
+	 "responses": ["Adiós", "Adios! Vuelva pronto."]
+	},
+	{"tag": "thanks",
+	 "patterns": ["Gracias", "Muchas gracias", "Es muy útil", "Gracias por ayudar"],
+	 "responses": ["Feliz de ayudar!", "De nada!", "Para eso estoy"]
+	},
+	{"tag": "who",
+	 "patterns": ["Quien eres?", "A que te dedicas", "Que haces"],
+	 "responses": ["Soy un chatbot especializado en cocina", "Soy un chatbot para hablar de recetas de cocina"]
+	}
+   ]
+}
