@@ -4,7 +4,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 import pandas as pd
 import spacy as sp
-import json
 
 import nltk
 
@@ -19,7 +18,7 @@ stemmer = PorterStemmer()
 
 nlp = sp.load("es_core_news_md")
 
-df = pd.read_json("assest/Data/train-esp.json")
+df = pd.read_json("assest/Data/last-cook.csv")
 df_cook = pd.read_csv("assest/Data/intents_cook.csv")
 df_cook_others = pd.read_csv('assest/Data/intents_cook_others.csv')
 
@@ -40,7 +39,7 @@ df_cook_others['text'] = df_cook_others['text'].apply(lambda x: [item for item i
 df_cook_others['text'] = df_cook_others['text'].apply(lambda x: [stemmer.stem(item) for item in x])
 df_cook_others['text'] = df_cook_others['text'].apply(lambda x: ' '.join(x))
 
-df_cook["label"] = df_cook.label.map({ 'title': 2, 'instructions': 1, 'title_instructions': 0})
+df_cook["label"] = df_cook.label.map({ 'name_to_prepare': 1, 'ingredient_to_name': 0})
 df_cook_others["label"] = df_cook_others.label.map({ 'cook': 1, 'others': 0})
 
 
@@ -84,7 +83,6 @@ def others(text):
     x = []
     y_train = []
     for i in range(4):
-    #     print(intents["intents"][i])
         label = intents["intents"][i]["tag"]
         for j in intents["intents"][i]["patterns"]:
             x.append(j)
@@ -102,19 +100,26 @@ def others(text):
     return naive_bayes.predict(text_data)
 
 
+# devolver una respuesta de cocina segun el intent
 def search(text, first, second):
     ma = -1000000
     sol = ""
     doc = nlp(text)
-    doc = doc.similarity(text)
+    for i in range(df.shape[0]): 
+        aux = nlp(str(df[first][i]))
+        value = doc.similarity(aux)
+        if (value > ma):
+            ma = value
+            sol = df[second][i]
     return sol
         
+# Devolver una respuesta varia aleatoria segun el intent
 def response_others(tag):
     for i in range(4):
-    #     print(intents["intents"][i])
         label = intents["intents"][i]["tag"]
         if label == tag:
-            return intents["intents"][i]["responses"][0]
+            rand = int(random.uniform(0,len(intents["intents"][i]["responses"])))
+            return intents["intents"][i]["responses"][rand]
 
 
 def get_response(text):
