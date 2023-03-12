@@ -1,7 +1,13 @@
 import src.config as config
 
 from .bot import bot
-from ..logic import get_response
+from ..logic import *
+
+
+WELCOM_MESSAGE = '''Hola Humano. Soy tu asistente personal
+de cocina. Te ayudare a encontrar esas delicionsas recetas
+que buscas y te ayudare a prepararlas.
+'''
 
 
 @bot.message_handler(commands=['start', 'help'])
