@@ -1,1 +1,1 @@
-from .logic import get_response
+from .logic import *
